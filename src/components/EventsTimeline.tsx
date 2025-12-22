@@ -311,14 +311,14 @@ const EventsTimeline = () => {
                       ))}
                     </div>
 
-                    {/* Register Link */}
-                    <Link to="/register">
+                    {/* View Event Details Link */}
+                    <Link to="/event/ai-verse-4">
                       <motion.button
                         className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl gradient-bg text-primary-foreground font-semibold text-sm"
                         whileHover={{ scale: 1.02, boxShadow: "0 10px 30px -10px hsl(var(--primary) / 0.5)" }}
                         whileTap={{ scale: 0.98 }}
                       >
-                        Register Now
+                        View Details & Register
                         <motion.div
                           animate={{ x: [0, 4, 0] }}
                           transition={{ duration: 1.5, repeat: Infinity }}

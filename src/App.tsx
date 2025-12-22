@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import CustomCursor from "./components/CustomCursor";
 import Index from "./pages/Index";
+import EventDetails from "./pages/EventDetails";
 import Register from "./pages/Register";
 import Payment from "./pages/Payment";
 import PaymentSuccess from "./pages/PaymentSuccess";
@@ -23,6 +24,7 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/event/ai-verse-4" element={<EventDetails />} />
             <Route path="/register" element={<Register />} />
             <Route path="/payment" element={<Payment />} />
             <Route path="/payment-success" element={<PaymentSuccess />} />
