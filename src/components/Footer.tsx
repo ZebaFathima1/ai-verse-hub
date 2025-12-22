@@ -17,6 +17,7 @@ const Footer = () => {
     { label: "Home", href: "/" },
     { label: "Events", href: "/#events" },
     { label: "AI Verse 4.0", href: "/#upcoming" },
+    { label: "Team", href: "/#team" },
     { label: "Register", href: "/register" },
   ];
 
@@ -80,13 +81,24 @@ const Footer = () => {
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <motion.a
-                    href={link.href}
-                    className="text-background/70 hover:text-secondary transition-colors hoverable"
-                    whileHover={{ x: 5 }}
-                  >
-                    {link.label}
-                  </motion.a>
+                  {link.href.startsWith("/") && !link.href.includes("#") ? (
+                    <Link
+                      to={link.href}
+                      className="text-background/70 hover:text-secondary transition-colors hoverable"
+                    >
+                      <motion.span whileHover={{ x: 5 }} className="inline-block">
+                        {link.label}
+                      </motion.span>
+                    </Link>
+                  ) : (
+                    <motion.a
+                      href={link.href}
+                      className="text-background/70 hover:text-secondary transition-colors hoverable"
+                      whileHover={{ x: 5 }}
+                    >
+                      {link.label}
+                    </motion.a>
+                  )}
                 </motion.li>
               ))}
             </ul>

@@ -5,8 +5,10 @@ import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import EventsTimeline from "@/components/EventsTimeline";
 import UpcomingEvent from "@/components/UpcomingEvent";
+import TeamSection from "@/components/TeamSection";
 import Footer from "@/components/Footer";
 import LoadingScreen from "@/components/LoadingScreen";
+import PageTransition from "@/components/animations/PageTransition";
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -29,15 +31,18 @@ const Index = () => {
       </AnimatePresence>
       
       {!isLoading && (
-        <div className="min-h-screen">
-          <Navbar />
-          <main>
-            <HeroSection />
-            <EventsTimeline />
-            <UpcomingEvent />
-          </main>
-          <Footer />
-        </div>
+        <PageTransition>
+          <div className="min-h-screen">
+            <Navbar />
+            <main>
+              <HeroSection />
+              <EventsTimeline />
+              <UpcomingEvent />
+              <TeamSection />
+            </main>
+            <Footer />
+          </div>
+        </PageTransition>
       )}
     </>
   );
