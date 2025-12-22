@@ -102,117 +102,235 @@ const EventsTimeline = () => {
           </div>
         </ScrollReveal>
 
-        {/* Upcoming Event Card */}
-        <ScrollReveal delay={0.2}>
-          <div className="max-w-xl mx-auto mb-16">
-            <TiltCard tiltAmount={8} glare>
-              <div className="relative bg-card rounded-2xl shadow-elevated overflow-hidden group">
-                {/* Upcoming Badge */}
-                <motion.div
-                  className="absolute top-4 left-4 z-20 flex items-center gap-2 px-4 py-2 rounded-full gradient-bg text-primary-foreground text-sm font-bold"
-                  animate={{ scale: [1, 1.05, 1] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
-                  <motion.div
-                    animate={{ rotate: [0, 15, -15, 0] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  >
-                    <Sparkles className="w-4 h-4" />
-                  </motion.div>
-                  Upcoming Event
-                </motion.div>
+        {/* Timeline */}
+        <div className="relative max-w-5xl mx-auto">
+          {/* Timeline Line */}
+          <motion.div
+            className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-secondary to-accent"
+            initial={{ scaleY: 0 }}
+            whileInView={{ scaleY: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.5, ease: "easeOut" }}
+            style={{ transformOrigin: "top" }}
+          />
 
-                {/* Image */}
-                <div className="relative h-56 overflow-hidden">
-                  <motion.img
-                    src={upcomingEvent.image}
-                    alt={upcomingEvent.title}
-                    className="w-full h-full object-cover"
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ duration: 0.6 }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-card via-card/20 to-transparent" />
-                  
-                  {/* Year Badge & Participants */}
-                  <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
-                    <motion.span
-                      className="px-4 py-1.5 rounded-full gradient-bg text-primary-foreground text-sm font-bold"
+          {events.map((event, index) => (
+            <div
+              key={event.id}
+              className={cn(
+                "relative flex items-start gap-8 mb-16 last:mb-0",
+                index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+              )}
+            >
+              {/* Timeline Dot */}
+              <motion.div
+                className="absolute left-8 md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full gradient-bg shadow-glow z-10"
+                initial={{ scale: 0 }}
+                whileInView={{ scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3 + index * 0.2, type: "spring" }}
+              />
+
+              {/* Content Card */}
+              <AnimatedCard
+                variant={cardVariants[index % cardVariants.length]}
+                index={index}
+                className={cn(
+                  "ml-16 md:ml-0 md:w-1/2",
+                  index % 2 === 0 ? "md:pr-12" : "md:pl-12"
+                )}
+              >
+                <div className="bg-card rounded-2xl shadow-elevated overflow-hidden group">
+                  {/* Image */}
+                  <div className="relative h-48 overflow-hidden">
+                    <motion.img
+                      src={event.image}
+                      alt={event.title}
+                      className="w-full h-full object-cover"
                       whileHover={{ scale: 1.1 }}
-                    >
-                      {upcomingEvent.year}
-                    </motion.span>
-                    <div className="flex items-center gap-1 text-primary-foreground/90 text-sm font-medium bg-foreground/30 backdrop-blur-sm px-3 py-1 rounded-full">
-                      <Users className="w-4 h-4" />
-                      {upcomingEvent.participants}
+                      transition={{ duration: 0.6 }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent" />
+                    <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
+                      <motion.span
+                        className="px-3 py-1 rounded-full gradient-bg text-primary-foreground text-sm font-bold"
+                        whileHover={{ scale: 1.1 }}
+                      >
+                        {event.year}
+                      </motion.span>
+                      <div className="flex items-center gap-1 text-primary-foreground/80 text-sm">
+                        <Users className="w-4 h-4" />
+                        {event.participants}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-6">
+                    <h3 className="text-2xl font-display font-bold mb-3 gradient-text">
+                      {event.title}
+                    </h3>
+                    <p className="text-muted-foreground mb-4 leading-relaxed">
+                      {event.description}
+                    </p>
+                    
+                    {/* Highlights with staggered animation */}
+                    <div className="flex flex-wrap gap-2">
+                      {event.highlights.map((highlight, idx) => (
+                        <motion.span
+                          key={idx}
+                          className="px-3 py-1 rounded-full bg-muted text-muted-foreground text-xs font-medium"
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          whileInView={{ opacity: 1, scale: 1 }}
+                          viewport={{ once: true }}
+                          transition={{ delay: 0.5 + idx * 0.1 }}
+                          whileHover={{ 
+                            scale: 1.1, 
+                            backgroundColor: "hsl(var(--primary) / 0.1)",
+                            color: "hsl(var(--primary))",
+                          }}
+                        >
+                          {highlight}
+                        </motion.span>
+                      ))}
                     </div>
                   </div>
                 </div>
+              </AnimatedCard>
+            </div>
+          ))}
 
-                {/* Content */}
-                <div className="p-6">
-                  <div className="flex items-center gap-3 mb-2">
+          {/* AI Verse 4.0 - Upcoming Event (Right Side) */}
+          <div className="relative flex items-start gap-8 mb-16 md:flex-row-reverse">
+            {/* Timeline Dot */}
+            <motion.div
+              className="absolute left-8 md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full gradient-bg shadow-glow z-10"
+              initial={{ scale: 0 }}
+              whileInView={{ scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.5, type: "spring" }}
+            >
+              {/* Pulsing ring for upcoming */}
+              <motion.div
+                className="absolute inset-0 rounded-full gradient-bg"
+                animate={{ scale: [1, 2, 1], opacity: [0.5, 0, 0.5] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+            </motion.div>
+
+            {/* Content Card */}
+            <AnimatedCard
+              variant="scale"
+              index={3}
+              className="ml-16 md:ml-0 md:w-1/2 md:pl-12"
+            >
+              <TiltCard tiltAmount={6} glare>
+                <div className="bg-card rounded-2xl shadow-elevated overflow-hidden group relative">
+                  {/* Upcoming Badge */}
+                  <motion.div
+                    className="absolute top-4 left-4 z-20 flex items-center gap-2 px-3 py-1.5 rounded-full gradient-bg text-primary-foreground text-xs font-bold"
+                    animate={{ scale: [1, 1.05, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
                     <motion.div
-                      animate={{ y: [0, -3, 0] }}
+                      animate={{ rotate: [0, 15, -15, 0] }}
                       transition={{ duration: 2, repeat: Infinity }}
                     >
-                      <Rocket className="w-6 h-6 text-primary" />
+                      <Sparkles className="w-3 h-3" />
                     </motion.div>
-                    <h3 className="text-2xl font-display font-bold gradient-text">
-                      {upcomingEvent.title}
-                    </h3>
-                  </div>
-                  <p className="text-sm text-primary font-semibold mb-3">{upcomingEvent.date}</p>
-                  <p className="text-muted-foreground mb-4 leading-relaxed">
-                    {upcomingEvent.description}
-                  </p>
-                  
-                  {/* Highlights */}
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {upcomingEvent.highlights.map((highlight, idx) => (
+                    Upcoming Event
+                  </motion.div>
+
+                  {/* Image */}
+                  <div className="relative h-48 overflow-hidden">
+                    <motion.img
+                      src={upcomingEvent.image}
+                      alt={upcomingEvent.title}
+                      className="w-full h-full object-cover"
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ duration: 0.6 }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent" />
+                    <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
                       <motion.span
-                        key={idx}
-                        className="px-3 py-1 rounded-full bg-muted text-muted-foreground text-xs font-medium"
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.3 + idx * 0.1 }}
-                        whileHover={{ 
-                          scale: 1.1, 
-                          backgroundColor: "hsl(var(--primary) / 0.1)",
-                          color: "hsl(var(--primary))",
-                        }}
+                        className="px-3 py-1 rounded-full gradient-bg text-primary-foreground text-sm font-bold"
+                        whileHover={{ scale: 1.1 }}
                       >
-                        {highlight}
+                        {upcomingEvent.year}
                       </motion.span>
-                    ))}
+                      <div className="flex items-center gap-1 text-primary-foreground/80 text-sm bg-foreground/20 backdrop-blur-sm px-2 py-0.5 rounded-full">
+                        <Users className="w-4 h-4" />
+                        {upcomingEvent.participants}
+                      </div>
+                    </div>
                   </div>
 
-                  {/* Register Button */}
-                  <Link to="/register">
-                    <motion.button
-                      className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl gradient-bg text-primary-foreground font-semibold"
-                      whileHover={{ scale: 1.02, boxShadow: "0 10px 30px -10px hsl(var(--primary) / 0.5)" }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      Register Now
+                  {/* Content */}
+                  <div className="p-6">
+                    <div className="flex items-center gap-2 mb-1">
                       <motion.div
-                        animate={{ x: [0, 4, 0] }}
+                        animate={{ y: [0, -2, 0] }}
                         transition={{ duration: 1.5, repeat: Infinity }}
                       >
-                        <ArrowRight className="w-5 h-5" />
+                        <Rocket className="w-5 h-5 text-primary" />
                       </motion.div>
-                    </motion.button>
-                  </Link>
-                </div>
+                      <h3 className="text-2xl font-display font-bold gradient-text">
+                        {upcomingEvent.title}
+                      </h3>
+                    </div>
+                    <p className="text-sm text-primary font-semibold mb-3">{upcomingEvent.date}</p>
+                    <p className="text-muted-foreground mb-4 leading-relaxed text-sm">
+                      {upcomingEvent.description}
+                    </p>
+                    
+                    {/* Highlights */}
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {upcomingEvent.highlights.map((highlight, idx) => (
+                        <motion.span
+                          key={idx}
+                          className="px-3 py-1 rounded-full bg-muted text-muted-foreground text-xs font-medium"
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          whileInView={{ opacity: 1, scale: 1 }}
+                          viewport={{ once: true }}
+                          transition={{ delay: 0.5 + idx * 0.1 }}
+                          whileHover={{ 
+                            scale: 1.1, 
+                            backgroundColor: "hsl(var(--primary) / 0.1)",
+                            color: "hsl(var(--primary))",
+                          }}
+                        >
+                          {highlight}
+                        </motion.span>
+                      ))}
+                    </div>
 
-                {/* Shine Effect */}
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none"
-                />
-              </div>
-            </TiltCard>
+                    {/* Register Link */}
+                    <Link to="/register">
+                      <motion.button
+                        className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl gradient-bg text-primary-foreground font-semibold text-sm"
+                        whileHover={{ scale: 1.02, boxShadow: "0 10px 30px -10px hsl(var(--primary) / 0.5)" }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        Register Now
+                        <motion.div
+                          animate={{ x: [0, 4, 0] }}
+                          transition={{ duration: 1.5, repeat: Infinity }}
+                        >
+                          <ArrowRight className="w-4 h-4" />
+                        </motion.div>
+                      </motion.button>
+                    </Link>
+                  </div>
+
+                  {/* Shine Effect */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none"
+                  />
+                </div>
+              </TiltCard>
+            </AnimatedCard>
           </div>
-        </ScrollReveal>
+        </div>
 
         {/* Timeline */}
         <div className="relative max-w-5xl mx-auto">
