@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 import AnimatedCard from "@/components/animations/AnimatedCard";
 import TiltCard from "@/components/animations/TiltCard";
+import CountdownTimer from "@/components/CountdownTimer";
 
 interface Event {
   id: number;
@@ -279,6 +280,12 @@ const EventsTimeline = () => {
                       </h3>
                     </div>
                     <p className="text-sm text-primary font-semibold mb-3">{upcomingEvent.date}</p>
+                    
+                    {/* Countdown Timer */}
+                    <div className="mb-4">
+                      <CountdownTimer targetDate={new Date("2025-03-15T09:00:00")} />
+                    </div>
+                    
                     <p className="text-muted-foreground mb-4 leading-relaxed text-sm">
                       {upcomingEvent.description}
                     </p>
