@@ -5,7 +5,9 @@ import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import EventsTimeline from "@/components/EventsTimeline";
 import UpcomingEvent from "@/components/UpcomingEvent";
+import EventGallery from "@/components/EventGallery";
 import TeamSection from "@/components/TeamSection";
+import FAQSection from "@/components/FAQSection";
 import Footer from "@/components/Footer";
 import LoadingScreen from "@/components/LoadingScreen";
 import PageTransition from "@/components/animations/PageTransition";
@@ -38,7 +40,9 @@ const Index = () => {
               <HeroSection />
               <EventsTimeline />
               <UpcomingEvent />
+              <EventGallery />
               <TeamSection />
+              <FAQSection />
             </main>
             <Footer />
           </div>

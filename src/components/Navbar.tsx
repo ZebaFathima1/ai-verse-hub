@@ -22,7 +22,9 @@ const Navbar = () => {
     { href: "/", label: "Home" },
     { href: "/#events", label: "Events" },
     { href: "/#upcoming", label: "AI Verse 4.0" },
-    { href: "/register", label: "Register" },
+    { href: "/#gallery", label: "Gallery" },
+    { href: "/#team", label: "Team" },
+    { href: "/#faq", label: "FAQ" },
   ];
 
   return (
