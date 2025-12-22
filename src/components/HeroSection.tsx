@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import TextReveal from "@/components/animations/TextReveal";
 import FloatingParticles from "@/components/animations/FloatingParticles";
 import GlowingOrbs from "@/components/animations/GlowingOrbs";
-import AnimatedCard from "@/components/animations/AnimatedCard";
+import TiltCard from "@/components/animations/TiltCard";
 
 const HeroSection = () => {
   const containerVariants = {
@@ -165,36 +165,34 @@ const HeroSection = () => {
             </a>
           </motion.div>
 
-          {/* Stats Cards */}
+          {/* Stats Cards with 3D Tilt */}
           <div className="grid grid-cols-3 gap-4 md:gap-8 mt-20 max-w-2xl mx-auto">
             {stats.map((stat, index) => (
-              <AnimatedCard
+              <motion.div
                 key={index}
-                index={index}
-                variant={index === 0 ? "bounce" : index === 1 ? "scale" : "flip"}
-                className="text-center glass-card rounded-2xl p-4 md:p-6"
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1 + index * 0.15, type: "spring" }}
               >
-                <motion.div
-                  className="text-2xl md:text-4xl font-display font-bold text-primary-foreground mb-1"
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 1.2 + index * 0.1, type: "spring" }}
-                >
-                  <motion.span
-                    animate={{ 
-                      textShadow: [
-                        "0 0 10px hsl(221 83% 53% / 0.3)",
-                        "0 0 20px hsl(221 83% 53% / 0.5)",
-                        "0 0 10px hsl(221 83% 53% / 0.3)",
-                      ]
-                    }}
-                    transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
-                  >
-                    {stat.value}
-                  </motion.span>
-                </motion.div>
-                <div className="text-xs md:text-sm text-primary-foreground/50">{stat.label}</div>
-              </AnimatedCard>
+                <TiltCard tiltAmount={12} className="h-full">
+                  <div className="glass-card rounded-2xl p-4 md:p-6 text-center h-full">
+                    <motion.div
+                      className="text-2xl md:text-4xl font-display font-bold text-primary-foreground mb-1"
+                      animate={{ 
+                        textShadow: [
+                          "0 0 10px hsl(221 83% 53% / 0.3)",
+                          "0 0 20px hsl(221 83% 53% / 0.5)",
+                          "0 0 10px hsl(221 83% 53% / 0.3)",
+                        ]
+                      }}
+                      transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
+                    >
+                      {stat.value}
+                    </motion.div>
+                    <div className="text-xs md:text-sm text-primary-foreground/50">{stat.label}</div>
+                  </div>
+                </TiltCard>
+              </motion.div>
             ))}
           </div>
         </div>
