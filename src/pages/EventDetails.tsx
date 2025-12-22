@@ -102,7 +102,7 @@ const EventDetails = () => {
           <main className="pt-24 pb-16">
             <div className="container mx-auto px-4">
               {/* Back Link */}
-              <Link to="/#events" className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors mb-8">
+              <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors mb-8">
                 <ArrowLeft className="w-4 h-4" />
                 Back to Timeline
               </Link>

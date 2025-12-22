@@ -88,8 +88,18 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* CTA Button */}
-          <div className="hidden lg:block">
+          {/* CTA Buttons */}
+          <div className="hidden lg:flex items-center gap-3">
+            <Link to="/auth">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Button variant="outline" size="default" className="hoverable">
+                  Login
+                </Button>
+              </motion.div>
+            </Link>
             <Link to="/register">
               <motion.div
                 whileHover={{ scale: 1.05 }}
@@ -158,6 +168,11 @@ const Navbar = () => {
                     {link.label}
                   </motion.a>
                 ))}
+                <Link to="/auth" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Button variant="outline" className="w-full mb-2">
+                    Login
+                  </Button>
+                </Link>
                 <Link to="/register" onClick={() => setIsMobileMenuOpen(false)}>
                   <Button variant="gradient" className="w-full">
                     Register Now
