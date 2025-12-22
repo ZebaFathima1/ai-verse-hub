@@ -106,7 +106,7 @@ const EventsTimeline = () => {
         <div className="relative max-w-5xl mx-auto">
           {/* Timeline Line */}
           <motion.div
-            className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-secondary to-accent"
+            className="absolute left-6 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-secondary to-accent"
             initial={{ scaleY: 0 }}
             whileInView={{ scaleY: 1 }}
             viewport={{ once: true }}
@@ -118,13 +118,13 @@ const EventsTimeline = () => {
             <div
               key={event.id}
               className={cn(
-                "relative flex items-start gap-8 mb-16 last:mb-0",
+                "relative flex items-start gap-4 md:gap-8 mb-16 last:mb-0 flex-col md:flex-row",
                 index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
               )}
             >
               {/* Timeline Dot */}
               <motion.div
-                className="absolute left-8 md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full gradient-bg shadow-glow z-10"
+                className="absolute left-6 md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full gradient-bg shadow-glow z-10"
                 initial={{ scale: 0 }}
                 whileInView={{ scale: 1 }}
                 viewport={{ once: true }}
@@ -136,7 +136,7 @@ const EventsTimeline = () => {
                 variant={cardVariants[index % cardVariants.length]}
                 index={index}
                 className={cn(
-                  "ml-16 md:ml-0 md:w-1/2",
+                  "ml-12 md:ml-0 w-[calc(100%-3rem)] md:w-1/2",
                   index % 2 === 0 ? "md:pr-12" : "md:pl-12"
                 )}
               >
@@ -201,10 +201,10 @@ const EventsTimeline = () => {
           ))}
 
           {/* AI Verse 4.0 - Upcoming Event (Right Side) */}
-          <div className="relative flex items-start gap-8 mb-16 md:flex-row-reverse">
+          <div className="relative flex items-start gap-4 md:gap-8 mb-16 flex-col md:flex-row-reverse">
             {/* Timeline Dot */}
             <motion.div
-              className="absolute left-8 md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full gradient-bg shadow-glow z-10"
+              className="absolute left-6 md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full gradient-bg shadow-glow z-10"
               initial={{ scale: 0 }}
               whileInView={{ scale: 1 }}
               viewport={{ once: true }}
@@ -222,7 +222,7 @@ const EventsTimeline = () => {
             <AnimatedCard
               variant="scale"
               index={3}
-              className="ml-16 md:ml-0 md:w-1/2 md:pl-12"
+              className="ml-12 md:ml-0 w-[calc(100%-3rem)] md:w-1/2 md:pl-12"
             >
               <TiltCard tiltAmount={6} glare>
                 <div className="bg-card rounded-2xl shadow-elevated overflow-hidden group relative">
@@ -330,105 +330,6 @@ const EventsTimeline = () => {
               </TiltCard>
             </AnimatedCard>
           </div>
-        </div>
-
-        {/* Timeline */}
-        <div className="relative max-w-5xl mx-auto">
-          {/* Timeline Line */}
-          <motion.div
-            className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-secondary to-accent"
-            initial={{ scaleY: 0 }}
-            whileInView={{ scaleY: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.5, ease: "easeOut" }}
-            style={{ transformOrigin: "top" }}
-          />
-
-          {events.map((event, index) => (
-            <div
-              key={event.id}
-              className={cn(
-                "relative flex items-start gap-8 mb-16 last:mb-0",
-                index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-              )}
-            >
-              {/* Timeline Dot */}
-              <motion.div
-                className="absolute left-8 md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full gradient-bg shadow-glow z-10"
-                initial={{ scale: 0 }}
-                whileInView={{ scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.3 + index * 0.2, type: "spring" }}
-              />
-
-              {/* Content Card */}
-              <AnimatedCard
-                variant={cardVariants[index % cardVariants.length]}
-                index={index}
-                className={cn(
-                  "ml-16 md:ml-0 md:w-1/2",
-                  index % 2 === 0 ? "md:pr-12" : "md:pl-12"
-                )}
-              >
-                <div className="bg-card rounded-2xl shadow-elevated overflow-hidden group">
-                  {/* Image */}
-                  <div className="relative h-48 overflow-hidden">
-                    <motion.img
-                      src={event.image}
-                      alt={event.title}
-                      className="w-full h-full object-cover"
-                      whileHover={{ scale: 1.1 }}
-                      transition={{ duration: 0.6 }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent" />
-                    <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
-                      <motion.span
-                        className="px-3 py-1 rounded-full gradient-bg text-primary-foreground text-sm font-bold"
-                        whileHover={{ scale: 1.1 }}
-                      >
-                        {event.year}
-                      </motion.span>
-                      <div className="flex items-center gap-1 text-primary-foreground/80 text-sm">
-                        <Users className="w-4 h-4" />
-                        {event.participants}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-6">
-                    <h3 className="text-2xl font-display font-bold mb-3 gradient-text">
-                      {event.title}
-                    </h3>
-                    <p className="text-muted-foreground mb-4 leading-relaxed">
-                      {event.description}
-                    </p>
-                    
-                    {/* Highlights with staggered animation */}
-                    <div className="flex flex-wrap gap-2">
-                      {event.highlights.map((highlight, idx) => (
-                        <motion.span
-                          key={idx}
-                          className="px-3 py-1 rounded-full bg-muted text-muted-foreground text-xs font-medium"
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          whileInView={{ opacity: 1, scale: 1 }}
-                          viewport={{ once: true }}
-                          transition={{ delay: 0.5 + idx * 0.1 }}
-                          whileHover={{ 
-                            scale: 1.1, 
-                            backgroundColor: "hsl(var(--primary) / 0.1)",
-                            color: "hsl(var(--primary))",
-                          }}
-                        >
-                          {highlight}
-                        </motion.span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </AnimatedCard>
-            </div>
-          ))}
         </div>
       </div>
     </section>
