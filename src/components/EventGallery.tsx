@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ChevronLeft, ChevronRight, ZoomIn, Images, Sparkles } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, ZoomIn, Images, Sparkles, Rocket, ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 import TiltCard from "@/components/animations/TiltCard";
 import { cn } from "@/lib/utils";
@@ -90,9 +91,10 @@ const galleryImages: GalleryImage[] = [
   },
 ];
 
-const events = ["All", "AI Verse 3.0", "AI Verse 2.0", "Data Stargaze"];
+const events = ["All", "AI Verse 4.0", "AI Verse 3.0", "AI Verse 2.0", "Data Stargaze"];
 
 const EventGallery = () => {
+  const navigate = useNavigate();
   const [selectedEvent, setSelectedEvent] = useState("All");
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -263,6 +265,124 @@ const EventGallery = () => {
             animate="visible"
             exit="hidden"
           >
+            {/* Upcoming Event Card - AI Verse 4.0 */}
+            {(selectedEvent === "All" || selectedEvent === "AI Verse 4.0") && (
+              <motion.div
+                variants={itemVariants}
+                layout
+              >
+                <TiltCard tiltAmount={12}>
+                  <motion.div
+                    className="relative aspect-[4/3] rounded-2xl overflow-hidden cursor-pointer group"
+                    whileHover={{ scale: 1.02 }}
+                    onClick={() => navigate("/register")}
+                  >
+                    {/* Gradient Background */}
+                    <div className="absolute inset-0 gradient-bg" />
+                    
+                    {/* Animated Pattern */}
+                    <div className="absolute inset-0 opacity-20">
+                      <motion.div
+                        className="absolute inset-0"
+                        style={{
+                          backgroundImage: `radial-gradient(circle at 25% 25%, hsl(var(--primary-foreground)) 1px, transparent 1px)`,
+                          backgroundSize: "20px 20px",
+                        }}
+                        animate={{ 
+                          backgroundPosition: ["0% 0%", "100% 100%"],
+                        }}
+                        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                      />
+                    </div>
+                    
+                    {/* Floating Particles */}
+                    <motion.div
+                      className="absolute top-4 right-4 w-3 h-3 rounded-full bg-primary-foreground/40"
+                      animate={{ y: [0, -10, 0], x: [0, 5, 0] }}
+                      transition={{ duration: 3, repeat: Infinity }}
+                    />
+                    <motion.div
+                      className="absolute bottom-8 left-6 w-2 h-2 rounded-full bg-primary-foreground/30"
+                      animate={{ y: [0, 8, 0], x: [0, -5, 0] }}
+                      transition={{ duration: 4, repeat: Infinity, delay: 1 }}
+                    />
+                    <motion.div
+                      className="absolute top-1/3 right-8 w-2 h-2 rounded-full bg-primary-foreground/50"
+                      animate={{ y: [0, -15, 0] }}
+                      transition={{ duration: 2.5, repeat: Infinity, delay: 0.5 }}
+                    />
+                    
+                    {/* Content */}
+                    <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center">
+                      {/* Animated Icon */}
+                      <motion.div
+                        className="w-14 h-14 rounded-2xl bg-primary-foreground/20 backdrop-blur-sm flex items-center justify-center mb-3"
+                        animate={{ 
+                          rotate: [0, 5, -5, 0],
+                          scale: [1, 1.05, 1],
+                        }}
+                        transition={{ duration: 4, repeat: Infinity }}
+                      >
+                        <motion.div
+                          animate={{ y: [0, -3, 0] }}
+                          transition={{ duration: 2, repeat: Infinity }}
+                        >
+                          <Rocket className="w-7 h-7 text-primary-foreground" />
+                        </motion.div>
+                      </motion.div>
+                      
+                      {/* Badge */}
+                      <motion.span
+                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-foreground/20 backdrop-blur-sm text-xs font-bold text-primary-foreground mb-2"
+                        animate={{ scale: [1, 1.05, 1] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      >
+                        <Sparkles className="w-3 h-3" />
+                        UPCOMING
+                      </motion.span>
+                      
+                      {/* Title */}
+                      <h3 className="text-lg font-display font-bold text-primary-foreground mb-1">
+                        AI Verse 4.0
+                      </h3>
+                      <p className="text-xs text-primary-foreground/80 mb-3">
+                        March 15-16, 2025
+                      </p>
+                      
+                      {/* CTA Button */}
+                      <motion.div
+                        className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-primary-foreground text-primary text-sm font-semibold"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        Register Now
+                        <motion.div
+                          animate={{ x: [0, 3, 0] }}
+                          transition={{ duration: 1.5, repeat: Infinity }}
+                        >
+                          <ArrowRight className="w-4 h-4" />
+                        </motion.div>
+                      </motion.div>
+                    </div>
+
+                    {/* Shine Effect */}
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"
+                    />
+                    
+                    {/* Glow Effect on Hover */}
+                    <motion.div
+                      className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                      style={{
+                        boxShadow: "inset 0 0 40px rgba(255,255,255,0.1)",
+                      }}
+                    />
+                  </motion.div>
+                </TiltCard>
+              </motion.div>
+            )}
+
+            {/* Regular Gallery Images */}
             {filteredImages.map((image, index) => (
               <motion.div
                 key={image.id}
