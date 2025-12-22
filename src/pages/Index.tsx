@@ -1,13 +1,32 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { Helmet } from "react-helmet-async";
+import Navbar from "@/components/Navbar";
+import HeroSection from "@/components/HeroSection";
+import EventsTimeline from "@/components/EventsTimeline";
+import UpcomingEvent from "@/components/UpcomingEvent";
+import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <>
+      <Helmet>
+        <title>CSE (AML) - Artificial Intelligence & Machine Learning Department</title>
+        <meta 
+          name="description" 
+          content="Welcome to CSE (AML) Department - Innovating the future with Artificial Intelligence and Machine Learning. Register for AI Verse 4.0, our flagship event." 
+        />
+        <meta name="keywords" content="CSE, AML, Artificial Intelligence, Machine Learning, AI Verse, College Events, Tech Events" />
+      </Helmet>
+      
+      <div className="min-h-screen">
+        <Navbar />
+        <main>
+          <HeroSection />
+          <EventsTimeline />
+          <UpcomingEvent />
+        </main>
+        <Footer />
       </div>
-    </div>
+    </>
   );
 };
 
