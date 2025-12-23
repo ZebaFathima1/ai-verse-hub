@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { AnimatePresence } from "framer-motion";
 import Navbar from "@/components/Navbar";
@@ -13,7 +13,10 @@ import LoadingScreen from "@/components/LoadingScreen";
 import PageTransition from "@/components/animations/PageTransition";
 
 const Index = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  // Only show loading screen on first visit to the website
+  const [isLoading, setIsLoading] = useState(() => {
+    return !sessionStorage.getItem("hasVisited");
+  });
 
   return (
     <>
@@ -28,7 +31,10 @@ const Index = () => {
 
       <AnimatePresence>
         {isLoading && (
-          <LoadingScreen onLoadingComplete={() => setIsLoading(false)} />
+          <LoadingScreen onLoadingComplete={() => {
+            sessionStorage.setItem("hasVisited", "true");
+            setIsLoading(false);
+          }} />
         )}
       </AnimatePresence>
       
