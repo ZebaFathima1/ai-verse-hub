@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { User, Mail, Phone, Calendar, MapPin, Edit2, Camera, Award, Ticket, Settings } from "lucide-react";
+import { User, Mail, Phone, Calendar, MapPin, Edit2, Camera, Award, Ticket, Settings, Cpu, GraduationCap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -18,8 +18,8 @@ const UserProfile = () => {
     name: sessionStorage.getItem("userName") || "John Doe",
     email: sessionStorage.getItem("userEmail") || "john.doe@example.com",
     phone: "+91 98765 43210",
-    college: "Indian Institute of Technology",
-    department: "Computer Science",
+    college: "Vaagdevi College of Engineering and Technology",
+    department: "CSE (AI & ML)",
     year: "3rd Year",
     location: "Mumbai, India",
     joinedDate: "December 2024",
@@ -80,10 +80,33 @@ const UserProfile = () => {
             transition={{ duration: 0.5 }}
             className="relative mb-8"
           >
-            {/* Cover Image */}
-            <div className="h-48 md:h-64 rounded-2xl bg-gradient-to-r from-primary/30 via-accent/20 to-primary/30 relative overflow-hidden">
+            {/* Cover Image with College Branding */}
+            <div className="h-48 md:h-64 rounded-2xl bg-gradient-to-r from-primary/40 via-accent/30 to-primary/40 relative overflow-hidden">
               <div className="absolute inset-0 bg-[url('/placeholder.svg')] opacity-10 bg-cover bg-center" />
               <div className="absolute inset-0 backdrop-blur-sm" />
+              
+              {/* College Branding Overlay */}
+              <div className="absolute top-4 left-4 md:top-6 md:left-6 flex items-center gap-3">
+                <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-primary/90 backdrop-blur-sm flex items-center justify-center shadow-lg border border-primary-foreground/20">
+                  <Cpu className="w-6 h-6 md:w-7 md:h-7 text-primary-foreground" />
+                </div>
+                <div className="hidden sm:block">
+                  <h2 className="text-sm md:text-base font-bold text-foreground drop-shadow-lg">
+                    CSE (AI & ML)
+                  </h2>
+                  <p className="text-xs md:text-sm text-foreground/80 drop-shadow-md">
+                    Vaagdevi College of Engineering & Technology
+                  </p>
+                </div>
+              </div>
+
+              {/* Department Badge */}
+              <div className="absolute top-4 right-4 md:top-6 md:right-6">
+                <Badge className="bg-primary/90 text-primary-foreground border-0 backdrop-blur-sm px-3 py-1 text-xs md:text-sm font-medium shadow-lg">
+                  <GraduationCap className="w-3 h-3 md:w-4 md:h-4 mr-1.5" />
+                  VCET Student
+                </Badge>
+              </div>
             </div>
 
             {/* Profile Info */}
@@ -106,8 +129,16 @@ const UserProfile = () => {
 
               <div className="flex-1 text-center md:text-left mb-4">
                 <h1 className="text-2xl md:text-3xl font-bold text-foreground">{user.name}</h1>
-                <p className="text-muted-foreground">{user.college}</p>
-                <p className="text-sm text-muted-foreground">{user.department} • {user.year}</p>
+                <div className="flex items-center justify-center md:justify-start gap-2 mt-1">
+                  <GraduationCap className="w-4 h-4 text-primary" />
+                  <p className="text-muted-foreground font-medium">{user.college}</p>
+                </div>
+                <div className="flex items-center justify-center md:justify-start gap-2 mt-0.5">
+                  <Cpu className="w-3.5 h-3.5 text-primary" />
+                  <p className="text-sm text-primary font-semibold">{user.department}</p>
+                  <span className="text-muted-foreground">•</span>
+                  <p className="text-sm text-muted-foreground">{user.year}</p>
+                </div>
               </div>
 
               <Button 
