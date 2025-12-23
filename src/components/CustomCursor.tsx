@@ -1,12 +1,24 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 
 const CustomCursor = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
+  const [rotation, setRotation] = useState(0);
+  const prevPosition = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     const updateMousePosition = (e: MouseEvent) => {
+      const dx = e.clientX - prevPosition.current.x;
+      const dy = e.clientY - prevPosition.current.y;
+      
+      // Only update rotation if there's significant movement
+      if (Math.abs(dx) > 2 || Math.abs(dy) > 2) {
+        const angle = Math.atan2(dy, dx) * (180 / Math.PI) + 135;
+        setRotation(angle);
+      }
+      
+      prevPosition.current = { x: e.clientX, y: e.clientY };
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
 
@@ -42,14 +54,16 @@ const CustomCursor = () => {
         animate={{
           x: mousePosition.x,
           y: mousePosition.y,
+          rotate: rotation,
           scale: isHovering ? 1.2 : 1,
         }}
         transition={{
-          type: "spring",
-          stiffness: 500,
-          damping: 28,
-          mass: 0.5,
+          x: { type: "spring", stiffness: 500, damping: 28, mass: 0.5 },
+          y: { type: "spring", stiffness: 500, damping: 28, mass: 0.5 },
+          rotate: { type: "spring", stiffness: 300, damping: 20 },
+          scale: { type: "spring", stiffness: 300, damping: 20 },
         }}
+        style={{ originX: 0, originY: 0 }}
       >
         <svg
           width="24"
