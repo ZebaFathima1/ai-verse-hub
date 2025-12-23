@@ -85,20 +85,25 @@ const HeroSection = () => {
         animate="visible"
       >
         <div className="max-w-4xl mx-auto text-center">
-          {/* Badge */}
+          {/* College Badge */}
           <motion.div
             variants={itemVariants}
             whileHover={{ scale: 1.05 }}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full glass-card mb-8 cursor-default hoverable"
+            className="inline-flex flex-col items-center gap-2 px-6 py-3 rounded-2xl glass-card mb-8 cursor-default hoverable"
           >
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-            >
-              <Sparkles className="w-4 h-4 text-secondary" />
-            </motion.div>
-            <span className="text-sm font-semibold text-primary-foreground/90">
-              Department of AIML
+            <div className="flex items-center gap-2">
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+              >
+                <Sparkles className="w-4 h-4 text-secondary" />
+              </motion.div>
+              <span className="text-sm font-semibold text-primary-foreground/90">
+                Department of CSE (AI & ML)
+              </span>
+            </div>
+            <span className="text-xs text-primary-foreground/70 font-medium">
+              Vaagdevi College of Engineering & Technology
             </span>
           </motion.div>
 

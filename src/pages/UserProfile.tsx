@@ -100,13 +100,6 @@ const UserProfile = () => {
                 </div>
               </div>
 
-              {/* Department Badge */}
-              <div className="absolute top-4 right-4 md:top-6 md:right-6">
-                <Badge className="bg-primary/90 text-primary-foreground border-0 backdrop-blur-sm px-3 py-1 text-xs md:text-sm font-medium shadow-lg">
-                  <GraduationCap className="w-3 h-3 md:w-4 md:h-4 mr-1.5" />
-                  VCET Student
-                </Badge>
-              </div>
             </div>
 
             {/* Profile Info */}
