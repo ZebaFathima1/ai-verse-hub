@@ -42,13 +42,13 @@ const Footer = () => {
                   CSE (AIML)
                 </span>
                 <p className="text-xs text-background/60">
-                  Artificial Intelligence & Machine Learning
+                  Vaagdevi College of Engineering & Technology
                 </p>
               </div>
             </Link>
             <p className="text-background/70 leading-relaxed max-w-md mb-6">
-              Pioneering the future of technology through innovation, research, and hands-on learning. 
-              Join us in shaping tomorrow's AI landscape.
+              Department of Computer Science & Engineering (Artificial Intelligence & Machine Learning). 
+              Pioneering the future of technology through innovation, research, and hands-on learning.
             </p>
             <div className="flex gap-4">
               {socialLinks.map((social, index) => (
@@ -114,8 +114,8 @@ const Footer = () => {
               >
                 <MapPin className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" />
                 <span className="text-background/70">
-                  Department of CSE (AIML)<br />
-                  University Campus
+                  Department of CSE (AI & ML)<br />
+                  Vaagdevi College of Engineering & Technology
                 </span>
               </motion.li>
               <motion.li
@@ -146,11 +146,11 @@ const Footer = () => {
           viewport={{ once: true }}
           transition={{ delay: 0.5 }}
         >
-          <p className="text-background/50 text-sm">
-            © {currentYear} CSE (AIML) Department. All rights reserved.
+          <p className="text-background/50 text-sm text-center md:text-left">
+            © {currentYear} CSE (AI & ML) Department, VCET. All rights reserved.
           </p>
-          <p className="text-background/50 text-sm">
-            Designed with ❤️ for the AI community
+          <p className="text-background/50 text-sm text-center md:text-right">
+            Vaagdevi College of Engineering & Technology
           </p>
         </motion.div>
       </div>
