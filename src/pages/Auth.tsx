@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   ArrowRight, 
+  ArrowLeft,
   Mail, 
   Lock, 
   User, 
@@ -70,6 +71,15 @@ const Auth = () => {
             <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" />
             <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1s" }} />
           </div>
+
+          {/* Back Button */}
+          <button
+            onClick={() => navigate(-1)}
+            className="fixed top-6 left-6 z-20 inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back
+          </button>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}

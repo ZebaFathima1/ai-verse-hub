@@ -71,10 +71,13 @@ const Payment = () => {
           <main className="pt-24 pb-16">
             <div className="container mx-auto px-4">
               {/* Back Link */}
-              <Link to="/register" className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors mb-8">
+              <button 
+                onClick={() => navigate(-1)} 
+                className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors mb-8"
+              >
                 <ArrowLeft className="w-4 h-4" />
-                Back to Registration
-              </Link>
+                Back
+              </button>
 
               <div className="max-w-4xl mx-auto">
                 <div className="grid lg:grid-cols-5 gap-8">
