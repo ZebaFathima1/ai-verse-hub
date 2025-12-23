@@ -112,8 +112,8 @@ const Navbar = () => {
               <span className="font-display font-bold text-lg leading-tight gradient-text">
                 CSE (AIML)
               </span>
-              <span className="text-xs text-muted-foreground leading-tight">
-                AI & Machine Learning
+              <span className="text-xs text-muted-foreground leading-tight hidden sm:block">
+                Vaagdevi College of Engineering & Technology
               </span>
             </div>
           </Link>
