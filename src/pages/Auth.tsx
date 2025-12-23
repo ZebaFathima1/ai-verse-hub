@@ -43,6 +43,15 @@ const Auth = () => {
       return;
     }
 
+    // Save user data to session storage
+    sessionStorage.setItem("userData", JSON.stringify({
+      name: formData.name || formData.email.split("@")[0],
+      email: formData.email,
+    }));
+    
+    // Dispatch custom event for auth change
+    window.dispatchEvent(new Event("authChange"));
+
     // Demo: Just show success and navigate
     toast({
       title: isLogin ? "Welcome back!" : "Account created!",

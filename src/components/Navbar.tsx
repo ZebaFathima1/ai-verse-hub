@@ -1,14 +1,72 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Cpu } from "lucide-react";
+import { Menu, X, Cpu, User, LogOut, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userName, setUserName] = useState("");
   const location = useLocation();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Check if user is logged in
+  useEffect(() => {
+    const checkAuth = () => {
+      const userData = sessionStorage.getItem("userData");
+      if (userData) {
+        const parsed = JSON.parse(userData);
+        setIsLoggedIn(true);
+        setUserName(parsed.name || parsed.email || "User");
+      } else {
+        setIsLoggedIn(false);
+        setUserName("");
+      }
+    };
+    
+    checkAuth();
+    // Listen for storage changes
+    window.addEventListener("storage", checkAuth);
+    // Custom event for same-tab updates
+    window.addEventListener("authChange", checkAuth);
+    
+    return () => {
+      window.removeEventListener("storage", checkAuth);
+      window.removeEventListener("authChange", checkAuth);
+    };
+  }, []);
+
+  const handleLogout = () => {
+    sessionStorage.removeItem("userData");
+    setIsLoggedIn(false);
+    setUserName("");
+    window.dispatchEvent(new Event("authChange"));
+    toast({
+      title: "Logged out",
+      description: "You've been successfully logged out.",
+    });
+    navigate("/");
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -88,28 +146,64 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* CTA Buttons */}
+          {/* CTA Buttons / User Profile */}
           <div className="hidden lg:flex items-center gap-3">
-            <Link to="/auth">
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Button variant="outline" size="default" className="hoverable">
-                  Login
-                </Button>
-              </motion.div>
-            </Link>
-            <Link to="/register">
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Button variant="gradient" size="default" className="hoverable">
-                  Register Now
-                </Button>
-              </motion.div>
-            </Link>
+            {isLoggedIn ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <motion.button
+                    className="flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 hover:bg-primary/20 transition-colors hoverable"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <div className="w-8 h-8 rounded-full gradient-bg flex items-center justify-center">
+                      <User className="w-4 h-4 text-primary-foreground" />
+                    </div>
+                    <span className="text-sm font-medium text-foreground max-w-[100px] truncate">
+                      {userName}
+                    </span>
+                    <ChevronDown className="w-4 h-4 text-muted-foreground" />
+                  </motion.button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem className="flex items-center gap-2">
+                    <User className="w-4 h-4" />
+                    <span>Profile</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem 
+                    className="flex items-center gap-2 text-destructive focus:text-destructive"
+                    onClick={handleLogout}
+                  >
+                    <LogOut className="w-4 h-4" />
+                    <span>Logout</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <>
+                <Link to="/auth">
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <Button variant="outline" size="default" className="hoverable">
+                      Login
+                    </Button>
+                  </motion.div>
+                </Link>
+                <Link to="/register">
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <Button variant="gradient" size="default" className="hoverable">
+                      Register Now
+                    </Button>
+                  </motion.div>
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -168,16 +262,43 @@ const Navbar = () => {
                     {link.label}
                   </motion.a>
                 ))}
-                <Link to="/auth" onClick={() => setIsMobileMenuOpen(false)}>
-                  <Button variant="outline" className="w-full mb-2">
-                    Login
-                  </Button>
-                </Link>
-                <Link to="/register" onClick={() => setIsMobileMenuOpen(false)}>
-                  <Button variant="gradient" className="w-full">
-                    Register Now
-                  </Button>
-                </Link>
+                {isLoggedIn ? (
+                  <>
+                    <div className="flex items-center gap-3 p-3 rounded-xl bg-primary/10 border border-primary/20">
+                      <div className="w-10 h-10 rounded-full gradient-bg flex items-center justify-center">
+                        <User className="w-5 h-5 text-primary-foreground" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-medium text-foreground">{userName}</p>
+                        <p className="text-xs text-muted-foreground">Logged in</p>
+                      </div>
+                    </div>
+                    <Button 
+                      variant="outline" 
+                      className="w-full text-destructive border-destructive/30 hover:bg-destructive/10"
+                      onClick={() => {
+                        handleLogout();
+                        setIsMobileMenuOpen(false);
+                      }}
+                    >
+                      <LogOut className="w-4 h-4 mr-2" />
+                      Logout
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/auth" onClick={() => setIsMobileMenuOpen(false)}>
+                      <Button variant="outline" className="w-full mb-2">
+                        Login
+                      </Button>
+                    </Link>
+                    <Link to="/register" onClick={() => setIsMobileMenuOpen(false)}>
+                      <Button variant="gradient" className="w-full">
+                        Register Now
+                      </Button>
+                    </Link>
+                  </>
+                )}
               </motion.div>
             </motion.div>
           )}
