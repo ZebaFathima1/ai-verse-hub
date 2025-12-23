@@ -1,12 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-interface TrailDot {
-  id: number;
-  x: number;
-  y: number;
-}
-
 interface ClickRipple {
   id: number;
   x: number;
@@ -16,34 +10,20 @@ interface ClickRipple {
 const CustomCursor = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
-  const [rotation, setRotation] = useState(0);
   const [isClicking, setIsClicking] = useState(false);
-  const [trail, setTrail] = useState<TrailDot[]>([]);
   const [clickRipples, setClickRipples] = useState<ClickRipple[]>([]);
-  const prevPosition = useRef({ x: 0, y: 0 });
-  const trailId = useRef(0);
+  const [trailPositions, setTrailPositions] = useState<{ x: number; y: number }[]>([]);
   const rippleId = useRef(0);
 
   useEffect(() => {
     const updateMousePosition = (e: MouseEvent) => {
-      const dx = e.clientX - prevPosition.current.x;
-      const dy = e.clientY - prevPosition.current.y;
-      
-      // Only update rotation if there's significant movement
-      if (Math.abs(dx) > 2 || Math.abs(dy) > 2) {
-        const angle = Math.atan2(dy, dx) * (180 / Math.PI) + 135;
-        setRotation(angle);
-        
-        // Add trail dot
-        trailId.current += 1;
-        setTrail(prev => [
-          ...prev.slice(-8),
-          { id: trailId.current, x: e.clientX, y: e.clientY }
-        ]);
-      }
-      
-      prevPosition.current = { x: e.clientX, y: e.clientY };
       setMousePosition({ x: e.clientX, y: e.clientY });
+      
+      // Update trail positions
+      setTrailPositions(prev => {
+        const newPositions = [...prev, { x: e.clientX, y: e.clientY }];
+        return newPositions.slice(-6); // Keep last 6 positions
+      });
     };
 
     const handleMouseOver = (e: MouseEvent) => {
@@ -69,7 +49,6 @@ const CustomCursor = () => {
         { id: rippleId.current, x: e.clientX, y: e.clientY }
       ]);
       
-      // Remove ripple after animation
       setTimeout(() => {
         setClickRipples(prev => prev.slice(1));
       }, 600);
@@ -92,43 +71,23 @@ const CustomCursor = () => {
     };
   }, []);
 
-  // Clear old trail dots
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTrail(prev => prev.slice(1));
-    }, 50);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <>
-      {/* Trail effect */}
-      <AnimatePresence>
-        {trail.map((dot, index) => (
-          <motion.div
-            key={dot.id}
-            className="fixed top-0 left-0 rounded-full pointer-events-none z-[9996]"
-            initial={{ 
-              x: dot.x - 4, 
-              y: dot.y - 4, 
-              opacity: 0.6,
-              scale: 1,
-              width: 8,
-              height: 8,
-              backgroundColor: "hsl(var(--primary))"
-            }}
-            animate={{ 
-              opacity: 0,
-              scale: 0.5,
-            }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            style={{
-              opacity: (index + 1) / trail.length * 0.5,
-            }}
-          />
-        ))}
-      </AnimatePresence>
+      {/* Trail effect - smooth dots */}
+      {trailPositions.map((pos, index) => (
+        <motion.div
+          key={index}
+          className="fixed top-0 left-0 rounded-full bg-primary pointer-events-none z-[9996]"
+          style={{
+            x: pos.x - 3,
+            y: pos.y - 3,
+            width: 6,
+            height: 6,
+            opacity: ((index + 1) / trailPositions.length) * 0.3,
+            scale: ((index + 1) / trailPositions.length) * 0.8,
+          }}
+        />
+      ))}
 
       {/* Click ripple effect */}
       <AnimatePresence>
@@ -154,22 +113,19 @@ const CustomCursor = () => {
         ))}
       </AnimatePresence>
 
-      {/* Arrow cursor */}
+      {/* Main arrow cursor - smooth movement */}
       <motion.div
         className="fixed top-0 left-0 pointer-events-none z-[9999]"
         animate={{
           x: mousePosition.x,
           y: mousePosition.y,
-          rotate: rotation,
-          scale: isClicking ? 0.8 : isHovering ? 1.2 : 1,
+          scale: isClicking ? 0.85 : isHovering ? 1.1 : 1,
         }}
         transition={{
-          x: { type: "spring", stiffness: 500, damping: 28, mass: 0.5 },
-          y: { type: "spring", stiffness: 500, damping: 28, mass: 0.5 },
-          rotate: { type: "spring", stiffness: 300, damping: 20 },
-          scale: { type: "spring", stiffness: 400, damping: 15 },
+          x: { type: "tween", duration: 0.05, ease: "linear" },
+          y: { type: "tween", duration: 0.05, ease: "linear" },
+          scale: { type: "tween", duration: 0.15, ease: "easeOut" },
         }}
-        style={{ originX: 0, originY: 0 }}
       >
         <svg
           width="24"
@@ -190,20 +146,20 @@ const CustomCursor = () => {
         </svg>
       </motion.div>
       
-      {/* Trailing ring - visible on hover */}
+      {/* Hover ring - smooth */}
       <motion.div
-        className="fixed top-0 left-0 w-12 h-12 rounded-full border-2 border-primary/40 pointer-events-none z-[9998]"
+        className="fixed top-0 left-0 w-10 h-10 rounded-full border-2 border-primary/50 pointer-events-none z-[9998]"
         animate={{
-          x: mousePosition.x - 24,
-          y: mousePosition.y - 24,
+          x: mousePosition.x - 20,
+          y: mousePosition.y - 20,
           scale: isHovering ? 1 : 0,
-          opacity: isHovering ? 0.6 : 0,
+          opacity: isHovering ? 0.5 : 0,
         }}
         transition={{
-          type: "spring",
-          stiffness: 200,
-          damping: 20,
-          mass: 0.2,
+          x: { type: "tween", duration: 0.1, ease: "linear" },
+          y: { type: "tween", duration: 0.1, ease: "linear" },
+          scale: { type: "tween", duration: 0.2, ease: "easeOut" },
+          opacity: { type: "tween", duration: 0.2, ease: "easeOut" },
         }}
       />
     </>
