@@ -13,6 +13,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
+import ImageCropDialog from "./ImageCropDialog";
 
 interface UserData {
   name: string;
@@ -37,6 +38,8 @@ interface EditProfileDialogProps {
 const EditProfileDialog = ({ open, onOpenChange, user, onSave }: EditProfileDialogProps) => {
   const [formData, setFormData] = useState<UserData>(user);
   const [previewImage, setPreviewImage] = useState<string>(user.avatar);
+  const [cropDialogOpen, setCropDialogOpen] = useState(false);
+  const [imageToCrop, setImageToCrop] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
@@ -59,11 +62,22 @@ const EditProfileDialog = ({ open, onOpenChange, user, onSave }: EditProfileDial
       const reader = new FileReader();
       reader.onloadend = () => {
         const base64 = reader.result as string;
-        setPreviewImage(base64);
-        setFormData(prev => ({ ...prev, avatar: base64 }));
+        setImageToCrop(base64);
+        setCropDialogOpen(true);
       };
       reader.readAsDataURL(file);
     }
+    // Reset input so same file can be selected again
+    e.target.value = "";
+  };
+
+  const handleCropComplete = (croppedImage: string) => {
+    setPreviewImage(croppedImage);
+    setFormData(prev => ({ ...prev, avatar: croppedImage }));
+    toast({
+      title: "Image cropped",
+      description: "Your profile picture has been updated",
+    });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -248,6 +262,13 @@ const EditProfileDialog = ({ open, onOpenChange, user, onSave }: EditProfileDial
           </div>
         </form>
       </DialogContent>
+
+      <ImageCropDialog
+        open={cropDialogOpen}
+        onOpenChange={setCropDialogOpen}
+        imageSrc={imageToCrop}
+        onCropComplete={handleCropComplete}
+      />
     </Dialog>
   );
 };
