@@ -270,115 +270,114 @@ const EventGallery = () => {
               <motion.div
                 variants={itemVariants}
                 layout
+                className="cursor-pointer"
+                onClick={() => navigate("/register")}
               >
-                <TiltCard tiltAmount={12}>
+                <motion.div
+                  className="relative aspect-[4/3] rounded-2xl overflow-hidden group"
+                  whileHover={{ y: -5 }}
+                  transition={{ type: "tween", duration: 0.2 }}
+                >
+                  {/* Gradient Background */}
+                  <div className="absolute inset-0 gradient-bg" />
+                  
+                  {/* Animated Pattern */}
+                  <div className="absolute inset-0 opacity-20">
+                    <motion.div
+                      className="absolute inset-0"
+                      style={{
+                        backgroundImage: `radial-gradient(circle at 25% 25%, hsl(var(--primary-foreground)) 1px, transparent 1px)`,
+                        backgroundSize: "20px 20px",
+                      }}
+                      animate={{ 
+                        backgroundPosition: ["0% 0%", "100% 100%"],
+                      }}
+                      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                    />
+                  </div>
+                  
+                  {/* Floating Particles */}
                   <motion.div
-                    className="relative aspect-[4/3] rounded-2xl overflow-hidden cursor-pointer group"
-                    whileHover={{ scale: 1.02 }}
-                    onClick={() => navigate("/register")}
-                  >
-                    {/* Gradient Background */}
-                    <div className="absolute inset-0 gradient-bg" />
-                    
-                    {/* Animated Pattern */}
-                    <div className="absolute inset-0 opacity-20">
+                    className="absolute top-4 right-4 w-3 h-3 rounded-full bg-primary-foreground/40"
+                    animate={{ y: [0, -10, 0], x: [0, 5, 0] }}
+                    transition={{ duration: 3, repeat: Infinity }}
+                  />
+                  <motion.div
+                    className="absolute bottom-8 left-6 w-2 h-2 rounded-full bg-primary-foreground/30"
+                    animate={{ y: [0, 8, 0], x: [0, -5, 0] }}
+                    transition={{ duration: 4, repeat: Infinity, delay: 1 }}
+                  />
+                  <motion.div
+                    className="absolute top-1/3 right-8 w-2 h-2 rounded-full bg-primary-foreground/50"
+                    animate={{ y: [0, -15, 0] }}
+                    transition={{ duration: 2.5, repeat: Infinity, delay: 0.5 }}
+                  />
+                  
+                  {/* Content */}
+                  <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center">
+                    {/* Animated Icon */}
+                    <motion.div
+                      className="w-14 h-14 rounded-2xl bg-primary-foreground/20 backdrop-blur-sm flex items-center justify-center mb-3"
+                      animate={{ 
+                        rotate: [0, 5, -5, 0],
+                        scale: [1, 1.05, 1],
+                      }}
+                      transition={{ duration: 4, repeat: Infinity }}
+                    >
                       <motion.div
-                        className="absolute inset-0"
-                        style={{
-                          backgroundImage: `radial-gradient(circle at 25% 25%, hsl(var(--primary-foreground)) 1px, transparent 1px)`,
-                          backgroundSize: "20px 20px",
-                        }}
-                        animate={{ 
-                          backgroundPosition: ["0% 0%", "100% 100%"],
-                        }}
-                        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                      />
-                    </div>
-                    
-                    {/* Floating Particles */}
-                    <motion.div
-                      className="absolute top-4 right-4 w-3 h-3 rounded-full bg-primary-foreground/40"
-                      animate={{ y: [0, -10, 0], x: [0, 5, 0] }}
-                      transition={{ duration: 3, repeat: Infinity }}
-                    />
-                    <motion.div
-                      className="absolute bottom-8 left-6 w-2 h-2 rounded-full bg-primary-foreground/30"
-                      animate={{ y: [0, 8, 0], x: [0, -5, 0] }}
-                      transition={{ duration: 4, repeat: Infinity, delay: 1 }}
-                    />
-                    <motion.div
-                      className="absolute top-1/3 right-8 w-2 h-2 rounded-full bg-primary-foreground/50"
-                      animate={{ y: [0, -15, 0] }}
-                      transition={{ duration: 2.5, repeat: Infinity, delay: 0.5 }}
-                    />
-                    
-                    {/* Content */}
-                    <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center">
-                      {/* Animated Icon */}
-                      <motion.div
-                        className="w-14 h-14 rounded-2xl bg-primary-foreground/20 backdrop-blur-sm flex items-center justify-center mb-3"
-                        animate={{ 
-                          rotate: [0, 5, -5, 0],
-                          scale: [1, 1.05, 1],
-                        }}
-                        transition={{ duration: 4, repeat: Infinity }}
-                      >
-                        <motion.div
-                          animate={{ y: [0, -3, 0] }}
-                          transition={{ duration: 2, repeat: Infinity }}
-                        >
-                          <Rocket className="w-7 h-7 text-primary-foreground" />
-                        </motion.div>
-                      </motion.div>
-                      
-                      {/* Badge */}
-                      <motion.span
-                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-foreground/20 backdrop-blur-sm text-xs font-bold text-primary-foreground mb-2"
-                        animate={{ scale: [1, 1.05, 1] }}
+                        animate={{ y: [0, -3, 0] }}
                         transition={{ duration: 2, repeat: Infinity }}
                       >
-                        <Sparkles className="w-3 h-3" />
-                        UPCOMING
-                      </motion.span>
-                      
-                      {/* Title */}
-                      <h3 className="text-lg font-display font-bold text-primary-foreground mb-1">
-                        AI Verse 4.0
-                      </h3>
-                      <p className="text-xs text-primary-foreground/80 mb-3">
-                        March 15-16, 2025
-                      </p>
-                      
-                      {/* CTA Button */}
-                      <motion.div
-                        className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-primary-foreground text-primary text-sm font-semibold"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        Register Now
-                        <motion.div
-                          animate={{ x: [0, 3, 0] }}
-                          transition={{ duration: 1.5, repeat: Infinity }}
-                        >
-                          <ArrowRight className="w-4 h-4" />
-                        </motion.div>
+                        <Rocket className="w-7 h-7 text-primary-foreground" />
                       </motion.div>
-                    </div>
-
-                    {/* Shine Effect */}
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"
-                    />
+                    </motion.div>
                     
-                    {/* Glow Effect on Hover */}
+                    {/* Badge */}
+                    <motion.span
+                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-foreground/20 backdrop-blur-sm text-xs font-bold text-primary-foreground mb-2"
+                      animate={{ scale: [1, 1.05, 1] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    >
+                      <Sparkles className="w-3 h-3" />
+                      UPCOMING
+                    </motion.span>
+                    
+                    {/* Title */}
+                    <h3 className="text-lg font-display font-bold text-primary-foreground mb-1">
+                      AI Verse 4.0
+                    </h3>
+                    <p className="text-xs text-primary-foreground/80 mb-3">
+                      March 15-16, 2025
+                    </p>
+                    
+                    {/* CTA Button */}
                     <motion.div
-                      className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                      style={{
-                        boxShadow: "inset 0 0 40px rgba(255,255,255,0.1)",
-                      }}
-                    />
-                  </motion.div>
-                </TiltCard>
+                      className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-primary-foreground text-primary text-sm font-semibold group-hover:shadow-lg transition-shadow"
+                      whileHover={{ scale: 1.05 }}
+                    >
+                      Register Now
+                      <motion.div
+                        animate={{ x: [0, 3, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                      >
+                        <ArrowRight className="w-4 h-4" />
+                      </motion.div>
+                    </motion.div>
+                  </div>
+
+                  {/* Shine Effect */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"
+                  />
+                  
+                  {/* Glow Effect on Hover */}
+                  <motion.div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                    style={{
+                      boxShadow: "inset 0 0 40px rgba(255,255,255,0.1)",
+                    }}
+                  />
+                </motion.div>
               </motion.div>
             )}
 
@@ -388,68 +387,45 @@ const EventGallery = () => {
                 key={image.id}
                 variants={itemVariants}
                 layout
+                className="cursor-pointer"
+                onClick={() => openLightbox(image, index)}
               >
-                <TiltCard tiltAmount={10}>
-                  <motion.div
-                    className="relative aspect-[4/3] rounded-2xl overflow-hidden cursor-pointer group"
-                    whileHover={{ scale: 1.02 }}
-                    onClick={() => openLightbox(image, index)}
-                  >
-                    {/* Image */}
-                    <motion.img
-                      src={image.src}
-                      alt={image.title}
-                      className="w-full h-full object-cover"
-                      initial={{ scale: 1.2 }}
-                      animate={{ scale: 1 }}
-                      transition={{ duration: 0.6 }}
-                      whileHover={{ scale: 1.1 }}
-                    />
-                    
-                    {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-foreground/90 via-foreground/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
-                    
-                    {/* Content Overlay */}
-                    <motion.div
-                      className="absolute inset-0 flex flex-col justify-between p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    >
-                      {/* Zoom Icon */}
-                      <div className="flex justify-end">
-                        <motion.div
-                          className="w-10 h-10 rounded-full glass-card flex items-center justify-center"
-                          initial={{ scale: 0, rotate: -180 }}
-                          whileHover={{ scale: 1.1 }}
-                          animate={{ scale: 1, rotate: 0 }}
-                          transition={{ type: "spring", stiffness: 200 }}
-                        >
-                          <ZoomIn className="w-5 h-5 text-primary-foreground" />
-                        </motion.div>
+                <motion.div
+                  className="relative aspect-[4/3] rounded-2xl overflow-hidden group"
+                  whileHover={{ y: -5 }}
+                  transition={{ type: "tween", duration: 0.2 }}
+                >
+                  {/* Image */}
+                  <img
+                    src={image.src}
+                    alt={image.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  
+                  {/* Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-foreground/90 via-foreground/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300" />
+                  
+                  {/* Content Overlay */}
+                  <div className="absolute inset-0 flex flex-col justify-between p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    {/* Zoom Icon */}
+                    <div className="flex justify-end">
+                      <div className="w-10 h-10 rounded-full bg-background/20 backdrop-blur-sm flex items-center justify-center">
+                        <ZoomIn className="w-5 h-5 text-primary-foreground" />
                       </div>
-                      
-                      {/* Text Content */}
-                      <motion.div
-                        initial={{ y: 20, opacity: 0 }}
-                        whileInView={{ y: 0, opacity: 1 }}
-                        transition={{ delay: 0.1 }}
-                      >
-                        <motion.span
-                          className="inline-block px-2 py-1 rounded-md gradient-bg text-xs font-medium text-primary-foreground mb-2"
-                          initial={{ x: -20, opacity: 0 }}
-                          whileInView={{ x: 0, opacity: 1 }}
-                          transition={{ delay: 0.15 }}
-                        >
-                          {image.event}
-                        </motion.span>
-                        <p className="text-primary-foreground font-semibold">{image.title}</p>
-                      </motion.div>
-                    </motion.div>
+                    </div>
+                    
+                    {/* Text Content */}
+                    <div>
+                      <span className="inline-block px-2 py-1 rounded-md gradient-bg text-xs font-medium text-primary-foreground mb-2">
+                        {image.event}
+                      </span>
+                      <p className="text-primary-foreground font-semibold">{image.title}</p>
+                    </div>
+                  </div>
 
-                    {/* Shine Effect */}
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"
-                    />
-                  </motion.div>
-                </TiltCard>
+                  {/* Shine Effect */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+                </motion.div>
               </motion.div>
             ))}
           </motion.div>
