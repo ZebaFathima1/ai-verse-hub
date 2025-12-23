@@ -267,15 +267,19 @@ const Navbar = () => {
                 ))}
                 {isLoggedIn ? (
                   <>
-                    <div className="flex items-center gap-3 p-3 rounded-xl bg-primary/10 border border-primary/20">
+                    <Link 
+                      to="/profile" 
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex items-center gap-3 p-3 rounded-xl bg-primary/10 border border-primary/20 hover:bg-primary/20 transition-colors"
+                    >
                       <div className="w-10 h-10 rounded-full gradient-bg flex items-center justify-center">
                         <User className="w-5 h-5 text-primary-foreground" />
                       </div>
                       <div className="flex-1">
                         <p className="font-medium text-foreground">{userName}</p>
-                        <p className="text-xs text-muted-foreground">Logged in</p>
+                        <p className="text-xs text-muted-foreground">View Profile</p>
                       </div>
-                    </div>
+                    </Link>
                     <Button 
                       variant="outline" 
                       className="w-full text-destructive border-destructive/30 hover:bg-destructive/10"
