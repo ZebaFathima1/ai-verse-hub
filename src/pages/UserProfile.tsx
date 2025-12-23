@@ -8,10 +8,13 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import EditProfileDialog from "@/components/EditProfileDialog";
 
 const UserProfile = () => {
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  
   // Demo user data
-  const [user] = useState({
+  const [user, setUser] = useState({
     name: sessionStorage.getItem("userName") || "John Doe",
     email: sessionStorage.getItem("userEmail") || "john.doe@example.com",
     phone: "+91 98765 43210",
@@ -21,8 +24,18 @@ const UserProfile = () => {
     location: "Mumbai, India",
     joinedDate: "December 2024",
     bio: "Passionate about technology and innovation. Love participating in hackathons and tech events.",
-    avatar: "",
+    avatar: sessionStorage.getItem("userAvatar") || "",
   });
+
+  const handleProfileUpdate = (updatedUser: typeof user) => {
+    setUser(updatedUser);
+    // Persist to sessionStorage
+    sessionStorage.setItem("userName", updatedUser.name);
+    sessionStorage.setItem("userEmail", updatedUser.email);
+    sessionStorage.setItem("userAvatar", updatedUser.avatar);
+    // Trigger auth change for navbar update
+    window.dispatchEvent(new Event("authChange"));
+  };
 
   const registeredEvents = [
     {
@@ -97,7 +110,11 @@ const UserProfile = () => {
                 <p className="text-sm text-muted-foreground">{user.department} • {user.year}</p>
               </div>
 
-              <Button variant="outline" className="gap-2">
+              <Button 
+                variant="outline" 
+                className="gap-2"
+                onClick={() => setIsEditDialogOpen(true)}
+              >
                 <Edit2 className="h-4 w-4" />
                 Edit Profile
               </Button>
@@ -260,6 +277,13 @@ const UserProfile = () => {
       </main>
 
       <Footer />
+      
+      <EditProfileDialog
+        open={isEditDialogOpen}
+        onOpenChange={setIsEditDialogOpen}
+        user={user}
+        onSave={handleProfileUpdate}
+      />
     </div>
   );
 };
