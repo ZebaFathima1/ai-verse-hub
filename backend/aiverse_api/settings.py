@@ -28,6 +28,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -41,6 +42,8 @@ ROOT_URLCONF = 'aiverse_api.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        # Point Django templates to the frontend build output so the
+        # SPA `index.html` can be served directly by Django.
         'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -84,7 +87,29 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
+# Static files served under `/static/`.
 STATIC_URL = '/static/'
+
+# Serve the built Vite frontend from Django. The project layout places the
+# frontend at the repository root; Vite outputs a `dist/` folder there by
+# default. `BASE_DIR` currently points at the `backend/` folder, so
+# `FRONTEND_DIR = BASE_DIR.parent` points to the repo root.
+FRONTEND_DIR = BASE_DIR.parent
+FRONTEND_DIST = FRONTEND_DIR / 'dist'
+
+# Include the frontend `dist` in template and static search paths so Django
+# can serve `index.html` and the static assets when you run the Django
+# server on port 8000 after building the frontend.
+import os
+TEMPLATES[0]['DIRS'] = [str(FRONTEND_DIST)]
+STATICFILES_DIRS = [str(FRONTEND_DIST)]
+
+# Collected static files will be placed under backend/staticfiles when you
+# run `collectstatic`.
+STATIC_ROOT = str(BASE_DIR / 'staticfiles')
+
+# Use WhiteNoise to serve files efficiently.
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

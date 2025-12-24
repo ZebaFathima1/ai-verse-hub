@@ -13,7 +13,8 @@ python -m venv .venv
 # or on cmd: .\.venv\Scripts\activate
 pip install -r requirements.txt
 python manage.py migrate
-python manage.py runserver
+# Run Django on port 8001 so the frontend can run on 8000 and proxy /admin to Django
+python manage.py runserver 127.0.0.1:8001
 ```
 
 Endpoints:
