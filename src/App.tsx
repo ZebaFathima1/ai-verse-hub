@@ -7,6 +7,7 @@ import { HelmetProvider } from "react-helmet-async";
 import CustomCursor from "./components/CustomCursor";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
+import AdminRedirect from "./pages/AdminRedirect";
 import EventDetails from "./pages/EventDetails";
 import Register from "./pages/Register";
 import Payment from "./pages/Payment";
@@ -27,6 +28,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/admin/*" element={<AdminRedirect />} />
             <Route path="/event/ai-verse-4" element={<EventDetails />} />
             <Route path="/register" element={<Register />} />
             <Route path="/payment" element={<Payment />} />
